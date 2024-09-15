@@ -2,14 +2,18 @@ package com.tarasov1812.jobportal.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
-@Table(name = "recruiter_profile")
-public class RecruiterProfile {
+@Table(name = "job_seeker_profile")
+public class JobSeekerProfile {
     @Id
-    private int userAccountId;
+    private int userAcountId;
 
     @OneToOne
     @JoinColumn(name = "user_account_id")
+    @MapsId
+
     private Users userId;
 
     private String firstName;
@@ -22,32 +26,46 @@ public class RecruiterProfile {
 
     private String country;
 
-    private String company;
+    private String workAuthorization;
+
+    private String employmentType;
+
+    private String resume;
 
     @Column(nullable = true, length = 64)
     private String profilePhoto;
 
-    public RecruiterProfile() {
+    @OneToMany(targetEntity = Skills.class, cascade = CascadeType.ALL, mappedBy = "jobSeekerProfile")
+    private List<Skills> skills;
+
+    public JobSeekerProfile() {
     }
 
-    public RecruiterProfile(int userAccountId, Users userId, String firstName, String lastName, String city, String state, String country, String company, String profilePhoto) {
-        this.userAccountId = userAccountId;
+    public JobSeekerProfile(Users userId) {
+        this.userId = userId;
+    }
+
+    public JobSeekerProfile(int userAcountId, Users userId, String firstName, String lastName, String city, String state, String country, String workAuthorization, String employmentType, String resume, String profilePhoto, List<Skills> skills) {
+        this.userAcountId = userAcountId;
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.city = city;
         this.state = state;
         this.country = country;
-        this.company = company;
+        this.workAuthorization = workAuthorization;
+        this.employmentType = employmentType;
+        this.resume = resume;
         this.profilePhoto = profilePhoto;
+        this.skills = skills;
     }
 
-    public int getUserAccountId() {
-        return userAccountId;
+    public int getUserAcountId() {
+        return userAcountId;
     }
 
-    public void setUserAccountId(int userAccountId) {
-        this.userAccountId = userAccountId;
+    public void setUserAcountId(int userAcountId) {
+        this.userAcountId = userAcountId;
     }
 
     public Users getUserId() {
@@ -98,12 +116,28 @@ public class RecruiterProfile {
         this.country = country;
     }
 
-    public String getCompany() {
-        return company;
+    public String getWorkAuthorization() {
+        return workAuthorization;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setWorkAuthorization(String workAuthorization) {
+        this.workAuthorization = workAuthorization;
+    }
+
+    public String getEmploymentType() {
+        return employmentType;
+    }
+
+    public void setEmploymentType(String employmentType) {
+        this.employmentType = employmentType;
+    }
+
+    public String getResume() {
+        return resume;
+    }
+
+    public void setResume(String resume) {
+        this.resume = resume;
     }
 
     public String getProfilePhoto() {
@@ -114,18 +148,29 @@ public class RecruiterProfile {
         this.profilePhoto = profilePhoto;
     }
 
+    public List<Skills> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<Skills> skills) {
+        this.skills = skills;
+    }
+
     @Override
     public String toString() {
-        return "RecruiterProfile{" +
-                "userAccountId=" + userAccountId +
+        return "JobSeekerProfile{" +
+                "userAcountId=" + userAcountId +
                 ", userId=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", country='" + country + '\'' +
-                ", company='" + company + '\'' +
+                ", workAuthorization='" + workAuthorization + '\'' +
+                ", employmentType='" + employmentType + '\'' +
+                ", resume='" + resume + '\'' +
                 ", profilePhoto='" + profilePhoto + '\'' +
+                ", skills=" + skills +
                 '}';
     }
 }
